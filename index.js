@@ -59,14 +59,10 @@ function renderProp(
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
-  console.log("11");
-  vscode.window.showWarningMessage("插件激活");
-
   // 注册命令
   let commandOfGetFileState = vscode.commands.registerCommand(
     "start",
     (uri) => {
-      console.log(",,,", uri);
       // 文件路径
       const filePath = uri.path.substring(1);
       fs.stat(filePath, (err, stats) => {
@@ -83,7 +79,9 @@ function activate(context) {
         if (stats.isFile()) {
           const res = docgen.parse(filePath, options);
           vscode.env.clipboard.writeText(commentToMarkDown(res[0]));
-          vscode.window.showInformationMessage("API文档已复制到剪切板");
+          vscode.window.showInformationMessage(
+            "API文档已复制到剪切板，及时粘贴"
+          );
         }
       });
     }
