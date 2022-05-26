@@ -30,7 +30,7 @@
       ],
       "explorer/context": [
         {
-          "command": "honor-doc-generate.start",
+          "command": "start",
           "group": "navigation"
         }
       ]
