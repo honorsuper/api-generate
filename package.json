@@ -1,5 +1,5 @@
 {
-  "name": "honor-api-generate",
+  "name": "tsx-api-generate",
   "displayName": "组件API文档生成",
   "description": "组件API文档生成器",
   "version": "0.0.1",
