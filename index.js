@@ -1,5 +1,5 @@
 const vscode = require("vscode");
-import { generateApi } from "./src/start";
+const { generateApi } = require("./src/start");
 
 function activate(context) {
   let commandOfGetFileState = vscode.commands.registerCommand(
