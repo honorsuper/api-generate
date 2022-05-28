@@ -1,9 +1,9 @@
-# Change Log
+# 变更记录
 
-All notable changes to the "api-generate" extension will be documented in this file.
+## [0.0.1]
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+- 基础功能开发
 
-## [Unreleased]
+## [0.0.2]
 
-- Initial release
+- 代码完善
