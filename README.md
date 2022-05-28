@@ -5,7 +5,7 @@
 ## DEMO演示
 
 基础组件
-![基础组件](./src//assets/component.png)
+![基础组件](./src/assets/component.png)
 
 <br/>
 

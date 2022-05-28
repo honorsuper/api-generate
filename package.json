@@ -9,6 +9,11 @@
   "categories": [
     "Other"
   ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/honorsuper/api-generate"
+  },
   "activationEvents": [
     "onCommand:start"
   ],
@@ -17,7 +22,7 @@
     "commands": [
       {
         "command": "start",
-        "title": "组件API文档生成111"
+        "title": "组件API文档生成"
       }
     ],
     "menus": {
