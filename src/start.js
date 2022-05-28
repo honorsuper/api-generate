@@ -55,7 +55,6 @@ function renderProp(
 }
 
 const generateApi = (uri) => {
-  console.log("why");
   const filePath = uri.path.substring(1);
   fs.stat(filePath, (err, stats) => {
     if (err) {
@@ -69,7 +68,6 @@ const generateApi = (uri) => {
     }
 
     if (stats.isFile()) {
-      console.log("走了吗");
       const res = docgen.parse(filePath, options);
       vscode.env.clipboard.writeText(commentToMarkDown(res[0]));
       vscode.window.showInformationMessage("API文档已复制到剪切板，及时粘贴");
