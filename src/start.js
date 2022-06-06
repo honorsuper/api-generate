@@ -62,6 +62,7 @@ function renderProp(
 }
 
 const generateApi = (uri) => {
+  console.log("会打印吗");
   const filePath = uri.path.substring(1);
   vscode.window.showErrorMessage(`路径:${filePath}`);
 
