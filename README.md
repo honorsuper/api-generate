@@ -11,7 +11,7 @@ import * as React from "react";
 import { Component } from "react";
 
 /**
- * Column properties.
+ *  BaseComponent properties.
  */
 export interface IBaseComponentProps {
   /** 属性一*/
@@ -25,7 +25,7 @@ export interface IBaseComponentProps {
 }
 
 /**
- * Form column.
+ * BaseComponent
  */
 export class BaseComponent extends Component<IBaseComponentProps, {}> {
   render() {
