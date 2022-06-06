@@ -56,6 +56,7 @@ function renderProp(
 
 const generateApi = (uri) => {
   const filePath = uri.path.substring(1);
+  vscode.window.showErrorMessage(`路径:${filePath}`);
 
   fs.stat(filePath, (err, stats) => {
     if (err) {
