@@ -2,7 +2,7 @@
   "name": "tsx-api-generate",
   "displayName": "组件API文档生成",
   "description": "组件API文档生成器",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "engines": {
     "vscode": "^1.67.0"
   },
