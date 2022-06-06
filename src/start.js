@@ -49,13 +49,14 @@ function renderProp(
   { type = { name: "-" }, defaultValue = { value: "-" }, required, description }
 ) {
   return `| ${name} | ${description || "-"}|${getType(type)} | ${
-    defaultValue?.value?.replace(/\|/g, "<span>|</span>") || "-"
+    defaultValue.value.replace(/\|/g, "<span>|</span>") || "-"
   } | ${required ? "true" : "false"} | 
   `;
 }
 
 const generateApi = (uri) => {
   const filePath = uri.path.substring(1);
+  vscode.window.showErrorMessage(`路径:${filePath}`);
 
   fs.stat(filePath, (err, stats) => {
     if (err) {
@@ -67,7 +68,7 @@ const generateApi = (uri) => {
         `检测的是文件夹，不是文件，请重新选择！！！`
       );
     }
-    if (!filePath?.endsWith(".tsx")) {
+    if (!filePath.endsWith(".tsx")) {
       return vscode.window.showErrorMessage(
         `当前文件不是tsx组件，请重新选择！！！`
       );
@@ -75,7 +76,7 @@ const generateApi = (uri) => {
 
     if (stats.isFile()) {
       const res = docgen.parse(filePath, options);
-      if (res?.length === 0) {
+      if (res.length === 0) {
         return vscode.window.showErrorMessage(
           `当前组件不符合开发规范，请修改后重新尝试`
         );
