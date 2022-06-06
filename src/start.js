@@ -49,6 +49,12 @@ function renderProp(
   name,
   { type = { name: "-" }, defaultValue = { value: "-" }, required, description }
 ) {
+  if (defaultValue === null) {
+    return `| ${name} | ${description || "-"}|${getType(type)} | "-" | ${
+      required ? "true" : "false"
+    } | 
+    `;
+  }
   return `| ${name} | ${description || "-"}|${getType(type)} | ${
     defaultValue.value.replace(/\|/g, "<span>|</span>") || "-"
   } | ${required ? "true" : "false"} | 
