@@ -9,6 +9,7 @@ const options = {
 
 function commentToMarkDown(componentInfo) {
   let { props } = componentInfo;
+  vscode.window.showErrorMessage(`路径:${props}`);
   const markdownInfo = renderMarkDown(props);
   const content = prettier.format(markdownInfo, {
     parser: "markdown",
