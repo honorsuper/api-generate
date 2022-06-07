@@ -1,6 +1,11 @@
 import * as vscode from "vscode";
 import * as fs from "fs";
-import { parse, ComponentDoc, Props } from "react-docgen-typescript";
+import {
+  parse,
+  ComponentDoc,
+  Props,
+  PropItemType,
+} from "react-docgen-typescript";
 import { format } from "prettier";
 
 const options = {
@@ -9,7 +14,6 @@ const options = {
 
 function commentToMarkDown(componentInfo: ComponentDoc) {
   let { props } = componentInfo;
-  vscode.window.showErrorMessage(`路径:${props}`);
   const markdownInfo = renderMarkDown(props);
   const content = format(markdownInfo, {
     parser: "markdown",
@@ -31,9 +35,9 @@ function renderMarkDown(props: Props) {
   `;
 }
 
-function getType(type: any) {
+function getType(type: PropItemType) {
   const handler: any = {
-    enum: (type: any) =>
+    enum: (type: PropItemType) =>
       type.value.map((item: any) => item.value.replace(/'/g, "")).join(" \\| "),
     union: (type: any) =>
       type.value.map((item: any) => item.name).join(" \\| "),
@@ -45,45 +49,29 @@ function getType(type: any) {
   }
 }
 
-// 渲染1行属性
-// function renderProp(
-//   name,
-//   { type = { name: "-" }, defaultValue = { value: "-" }, required, description }
-// ) {
-//   // if (defaultValue === null) {
-//   //   return `| ${name} | ${description || "-"}|${getType(type)} | "-" | ${
-//   //     required ? "true" : "false"
-//   //   } |
-//   //   `;
-//   // }
-//   // return `| ${name} | ${description || "-"}|${getType(type)} | ${
-//   //   defaultValue.value.replace(/\|/g, "<span>|</span>") || "-"
-//   // } | ${required ? "true" : "false"} |
-//   // `;
-//   return `| ${name} | ${description || "-"}|${getType(type)} |"-" | ${
-//     required ? "true" : "false"
-//   } |
-//   `;
-// }
-
 const renderProp = (
   name: string,
   {
     type = { name: "-" },
-    // defaultValue = { value: "-" },
+    defaultValue = { value: "-" },
     required = false,
     description = "-",
   }
 ) => {
-  return `| ${name} | ${description || "-"}|${getType(type)} |"-" | ${
-    required ? "true" : "false"
-  } |
+  if (defaultValue === null) {
+    return `| ${name} | ${description || "-"}|${getType(type)} | "-" | ${
+      required ? "true" : "false"
+    } |
+    `;
+  }
+  return `| ${name} | ${description || "-"}|${getType(type)} | ${
+    defaultValue.value.replace(/\|/g, "<span>|</span>") || "-"
+  } | ${required ? "true" : "false"} |
   `;
 };
 
 export const generateApi: (...args: any[]) => any = (uri) => {
   const filePath = uri.path.substring(1);
-  vscode.window.showErrorMessage(`路径:${filePath}`);
 
   fs.stat(filePath, (err, stats) => {
     if (err) {
