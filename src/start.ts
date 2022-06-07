@@ -1,23 +1,23 @@
-const vscode = require("vscode");
-const fs = require("fs");
-const docgen = require("react-docgen-typescript");
-const prettier = require("prettier");
+import * as vscode from "vscode";
+import * as fs from "fs";
+import { parse, ComponentDoc, Props } from "react-docgen-typescript";
+import { format } from "prettier";
 
 const options = {
   savePropValueAsString: true,
 };
 
-function commentToMarkDown(componentInfo) {
+function commentToMarkDown(componentInfo: ComponentDoc) {
   let { props } = componentInfo;
   vscode.window.showErrorMessage(`路径:${props}`);
   const markdownInfo = renderMarkDown(props);
-  const content = prettier.format(markdownInfo, {
+  const content = format(markdownInfo, {
     parser: "markdown",
   });
   return content;
 }
 
-function renderMarkDown(props) {
+function renderMarkDown(props: Props) {
   return `
   # 组件
   
@@ -31,11 +31,12 @@ function renderMarkDown(props) {
   `;
 }
 
-function getType(type) {
-  const handler = {
-    enum: (type) =>
-      type.value.map((item) => item.value.replace(/'/g, "")).join(" \\| "),
-    union: (type) => type.value.map((item) => item.name).join(" \\| "),
+function getType(type: any) {
+  const handler: any = {
+    enum: (type: any) =>
+      type.value.map((item: any) => item.value.replace(/'/g, "")).join(" \\| "),
+    union: (type: any) =>
+      type.value.map((item: any) => item.name).join(" \\| "),
   };
   if (typeof handler[type.name] === "function") {
     return handler[type.name](type).replace(/\|/g, `&nbsp;&#124;&nbsp;`);
@@ -45,28 +46,42 @@ function getType(type) {
 }
 
 // 渲染1行属性
-function renderProp(
-  name,
-  { type = { name: "-" }, defaultValue = { value: "-" }, required, description }
-) {
-  // if (defaultValue === null) {
-  //   return `| ${name} | ${description || "-"}|${getType(type)} | "-" | ${
-  //     required ? "true" : "false"
-  //   } |
-  //   `;
-  // }
-  // return `| ${name} | ${description || "-"}|${getType(type)} | ${
-  //   defaultValue.value.replace(/\|/g, "<span>|</span>") || "-"
-  // } | ${required ? "true" : "false"} |
-  // `;
+// function renderProp(
+//   name,
+//   { type = { name: "-" }, defaultValue = { value: "-" }, required, description }
+// ) {
+//   // if (defaultValue === null) {
+//   //   return `| ${name} | ${description || "-"}|${getType(type)} | "-" | ${
+//   //     required ? "true" : "false"
+//   //   } |
+//   //   `;
+//   // }
+//   // return `| ${name} | ${description || "-"}|${getType(type)} | ${
+//   //   defaultValue.value.replace(/\|/g, "<span>|</span>") || "-"
+//   // } | ${required ? "true" : "false"} |
+//   // `;
+//   return `| ${name} | ${description || "-"}|${getType(type)} |"-" | ${
+//     required ? "true" : "false"
+//   } |
+//   `;
+// }
+
+const renderProp = (
+  name: string,
+  {
+    type = { name: "-" },
+    // defaultValue = { value: "-" },
+    required = false,
+    description = "-",
+  }
+) => {
   return `| ${name} | ${description || "-"}|${getType(type)} |"-" | ${
     required ? "true" : "false"
-  } | 
+  } |
   `;
-}
+};
 
-const generateApi = (uri) => {
-  console.log("会打印吗");
+export const generateApi: (...args: any[]) => any = (uri) => {
   const filePath = uri.path.substring(1);
   vscode.window.showErrorMessage(`路径:${filePath}`);
 
@@ -87,7 +102,7 @@ const generateApi = (uri) => {
     }
 
     if (stats.isFile()) {
-      const res = docgen.parse(filePath, options);
+      const res = parse(filePath, options);
       if (res.length === 0) {
         return vscode.window.showErrorMessage(
           `当前组件不符合开发规范，请修改后重新尝试`
@@ -97,8 +112,4 @@ const generateApi = (uri) => {
       vscode.window.showInformationMessage("API文档已复制到剪切板，及时粘贴");
     }
   });
-};
-
-module.exports = {
-  generateApi,
 };
