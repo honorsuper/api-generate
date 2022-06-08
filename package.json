@@ -2,7 +2,7 @@
   "name": "tsx-api-generate",
   "displayName": "组件API文档生成",
   "description": "组件API文档生成器",
-  "version": "1.0.6",
+  "version": "1.0.8",
   "engines": {
     "vscode": "^1.67.0"
   },
@@ -48,8 +48,7 @@
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
     "pretest": "yarn run compile && yarn run lint",
-    "lint": "eslint src --ext ts",
-    "test": "node ./out/test/runTest.js"
+    "lint": "eslint src --ext ts"
   },
   "devDependencies": {
     "@types/glob": "^7.2.0",
@@ -62,11 +61,11 @@
     "@vscode/test-electron": "^2.1.3",
     "eslint": "^8.14.0",
     "glob": "^8.0.1",
-    "react": "^18.1.0",
-    "typescript": "^4.6.4"
+    "react": "^18.1.0"
   },
   "dependencies": {
     "prettier": "^2.6.2",
-    "react-docgen-typescript": "^2.2.2"
+    "react-docgen-typescript": "^2.2.2",
+    "typescript": "^4.6.4"
   }
 }
