@@ -1,9 +1,8 @@
 import * as vscode from "vscode";
-import { generateApi } from "./start";
+import { start } from "./start";
 
 export function activate(context: vscode.ExtensionContext) {
-  let disposable = vscode.commands.registerCommand("start", generateApi);
-
+  let disposable = vscode.commands.registerCommand("start", start);
   context.subscriptions.push(disposable);
 }
 

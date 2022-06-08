@@ -1,18 +1,13 @@
-import * as vscode from "vscode";
+import * as docgen from "react-docgen-typescript";
 import * as fs from "fs";
-import {
-  parse,
-  ComponentDoc,
-  Props,
-  PropItemType,
-} from "react-docgen-typescript";
+import * as vscode from "vscode";
 import { format } from "prettier";
 
 const options = {
   savePropValueAsString: true,
 };
 
-function commentToMarkDown(componentInfo: ComponentDoc) {
+function commentToMarkDown(componentInfo: docgen.ComponentDoc) {
   let { props } = componentInfo;
   const markdownInfo = renderMarkDown(props);
   const content = format(markdownInfo, {
@@ -21,7 +16,7 @@ function commentToMarkDown(componentInfo: ComponentDoc) {
   return content;
 }
 
-function renderMarkDown(props: Props) {
+function renderMarkDown(props: docgen.Props) {
   return `
   # 组件
   
@@ -35,9 +30,9 @@ function renderMarkDown(props: Props) {
   `;
 }
 
-function getType(type: PropItemType) {
+function getType(type: docgen.PropItemType) {
   const handler: any = {
-    enum: (type: PropItemType) =>
+    enum: (type: docgen.PropItemType) =>
       type.value.map((item: any) => item.value.replace(/'/g, "")).join(" \\| "),
     union: (type: any) =>
       type.value.map((item: any) => item.name).join(" \\| "),
@@ -70,8 +65,8 @@ const renderProp = (
   `;
 };
 
-export const generateApi: (...args: any[]) => any = (uri) => {
-  const filePath = uri.path.substring(1);
+export const start = (uri: vscode.Uri) => {
+  const filePath = uri.path;
 
   fs.stat(filePath, (err, stats) => {
     if (err) {
@@ -90,7 +85,7 @@ export const generateApi: (...args: any[]) => any = (uri) => {
     }
 
     if (stats.isFile()) {
-      const res = parse(filePath, options);
+      const res = docgen.parse(uri.path, options);
       if (res.length === 0) {
         return vscode.window.showErrorMessage(
           `当前组件不符合开发规范，请修改后重新尝试`
