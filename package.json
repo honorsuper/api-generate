@@ -2,7 +2,7 @@
   "name": "tsx-api-generate",
   "displayName": "TSX组件API文档生成",
   "description": "组件API文档生成器",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "publisher": "honorsuper",
   "icon": "icon.png",
   "engines": {
@@ -23,7 +23,7 @@
     "commands": [
       {
         "command": "start",
-        "title": "组件API文档生成1"
+        "title": "组件API文档生成"
       }
     ],
     "menus": {

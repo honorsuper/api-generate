@@ -64,8 +64,8 @@ const renderProp = (
   `;
 };
 
-export async function reactDocgen(file: vscode.Uri) {
-  const filePath = file.path;
+export async function generate(file: vscode.Uri) {
+  const filePath = file.path.substring(1);
   fs.stat(filePath, (err, stats) => {
     if (err) {
       return vscode.window.showErrorMessage(`获取文件时遇到错误了${err}!!!`);
