@@ -1,12 +1,11 @@
+import * as vscode from "vscode";
 import * as docgen from "react-docgen-typescript";
 import * as fs from "fs";
-import * as vscode from "vscode";
 import { format } from "prettier";
 
 const options = {
   savePropValueAsString: true,
 };
-
 function commentToMarkDown(componentInfo: docgen.ComponentDoc) {
   let { props } = componentInfo;
   const markdownInfo = renderMarkDown(props);
@@ -65,9 +64,8 @@ const renderProp = (
   `;
 };
 
-export const start = (uri: vscode.Uri) => {
-  const filePath = uri.path;
-
+export async function reactDocgen(file: vscode.Uri) {
+  const filePath = file.path;
   fs.stat(filePath, (err, stats) => {
     if (err) {
       return vscode.window.showErrorMessage(`获取文件时遇到错误了${err}!!!`);
@@ -85,7 +83,7 @@ export const start = (uri: vscode.Uri) => {
     }
 
     if (stats.isFile()) {
-      const res = docgen.parse(uri.path, options);
+      const res = docgen.parse(filePath, options);
       if (res.length === 0) {
         return vscode.window.showErrorMessage(
           `当前组件不符合开发规范，请修改后重新尝试`
@@ -95,4 +93,4 @@ export const start = (uri: vscode.Uri) => {
       vscode.window.showInformationMessage("API文档已复制到剪切板，及时粘贴");
     }
   });
-};
+}

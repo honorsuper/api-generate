@@ -1,9 +1,13 @@
 import * as vscode from "vscode";
-import { start } from "./start";
+import { reactDocgen } from "./commands/start";
 
 export function activate(context: vscode.ExtensionContext) {
-  let disposable = vscode.commands.registerCommand("start", start);
-  context.subscriptions.push(disposable);
+  const copyAllReactDocCmd = vscode.commands.registerCommand(
+    "start",
+    reactDocgen
+  );
+
+  context.subscriptions.push(copyAllReactDocCmd);
 }
 
 export function deactivate() {}
